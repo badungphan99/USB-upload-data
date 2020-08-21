@@ -38,6 +38,23 @@ public:
         this->mutex_.unlock();
         return check;
     }
+
+    bool isExist(T value) {
+        this->mutex_.lock();
+        bool flag = false;
+        std::queue<T> temp;
+        T tmpValue;
+        while (!this->queue_.empty()){
+            tmpValue = this->queue_.front();
+            this->queue_.pop();
+            if (value == tmpValue){
+                flag = true;
+            }
+            temp.push(tmpValue);
+        }
+        this->queue_ = temp;
+        return flag;
+    }
 };
 
 #endif //AUTOUPLOADDATA_BLOCKINGQUEUE_H

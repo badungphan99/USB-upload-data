@@ -18,7 +18,6 @@ int FileInfo::updateInfo(const std::string &size) {
         this->size = size;
         this->count = 0;
     }
-    std::cout <<"count " <<  this->count << " -8- " << this->path << "\n";
 
     if(this->count == NUM_CHECK){
         this->count++;

@@ -34,35 +34,30 @@ std::vector<std::string> split (const std::string& s, const std::string& delimit
 
 int main() {
     std::vector<FileInfo> filesInfo;
-//    BlockingQueue<std::string> queue;
-//    std::vector<std::string> listFileUpload;
+    BlockingQueue<std::string> listFileUpload;
     std::string delimiter = "\t";
     for(int asdasdasd=0; asdasdasd < 10; asdasdasd++) {
-        std::cout <<"b: " << asdasdasd << "\n";
         std::string info = execute("du -sh /home/dungpb/Work/piZeroW/autoUploadData/testdir/*");
         std::istringstream ss(info);
         for (std::string line; std::getline(ss, line);) {
             std::vector<std::string> splited = split(line, delimiter);
-            if (filesInfo.empty()) {
-                filesInfo.push_back(FileInfo(splited[1], splited[0]));
-            } else {
-                bool flag = true;
-                for (auto it = filesInfo.begin(); it != filesInfo.end(); ++it) {
-                    if (it->checkPath(splited[1]) == 0) {
-                        if (it->updateInfo(splited[0]) == 0) {
-                            std::cout << "file nay co the upload: " << splited[1] << "\n";
-//                                listFileUpload.push_back(it->getPath());
-//                                filesInfo.erase(it);
-                            break;
+            if(!listFileUpload.isExist(splited[1])) {
+                if (filesInfo.empty()) {
+                    filesInfo.push_back(FileInfo(splited[1], splited[0]));
+                } else {
+                    for (auto it = filesInfo.begin(); it != filesInfo.end(); ++it) {
+                        if (it->checkPath(splited[1]) == 0) {
+                            if (it->updateInfo(splited[0]) == 0) {
+                                std::cout << "file nay co the upload: " << splited[1] << "\n";
+                                listFileUpload.push(it->getPath());
+                                filesInfo.erase(it);
+                                break;
+                            }
                         }
-                        flag = false;
                     }
-                }
-                if(flag) {
                     filesInfo.push_back(FileInfo(splited[1], splited[0]));
                 }
             }
-
         }
     }
 }

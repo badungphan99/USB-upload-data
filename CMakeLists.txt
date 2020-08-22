@@ -11,4 +11,4 @@ include_directories(libFTP)
 add_executable(autoUploadData main.cpp FileInfo.cpp FileInfo.h blockingQueue.h FTPUpload.cpp FTPUpload.h)
 add_executable(testftp mainftp2.cpp libFTP/CurlHandle.cpp libFTP/CurlHandle.h libFTP/FTPClient.cpp libFTP/FTPClient.h FTPUpload.cpp FTPUpload.h)
 
-target_link_libraries(testftp ${CURL_LIBRARIES} )
+target_link_libraries(testftp ${CURL_LIBRARIES} stdc++fs)

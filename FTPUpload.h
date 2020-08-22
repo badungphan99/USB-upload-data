@@ -6,6 +6,7 @@
 #define AUTOUPLOADDATA_FTPUPLOAD_H
 
 #include <chrono>
+#include <experimental/filesystem>
 
 #include "libFTP/FTPClient.h"
 #include "debug_macro.h"
@@ -23,7 +24,7 @@ namespace FTPUpload {
      * @param path
      * @return 0 : directory | 1 : file
      */
-    int checkPath(const std::string& path);
+    int checkPath(const std::string& path_check);
 
     /**
      * @brief get environment variables
@@ -45,7 +46,15 @@ namespace FTPUpload {
      * @param filename
      * @return
      */
-    int renameFile(const std::string &path, std::string& filename);
+    int renameTimeStamp(const std::string &path, std::string& filename);
+
+    bool renameFileRemote(const std::string& str, const std::string& from, const std::string& to, std::string &res);
+
+    int directoryAndFileRegression(const std::string& path, std::vector<std::string> &listDir, std::vector<std::string> &listFile);
+
+    int uploadDir(const std::string& FTP_SERVER_ADD, int& FTP_SERVER_PORT, const std::string& FTP_USERNAME,
+                  const std::string& FTP_PASSWORD,const std::string& path_local);
+
 };
 
 

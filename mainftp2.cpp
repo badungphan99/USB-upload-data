@@ -5,7 +5,7 @@
 #include "FTPUpload.h"
 
 int main(){
-    std::string path = "/home/dungpb/Work/piZeroW/autoUploadData/testdir/sdfsdf";
+    std::string path = "/home/dungpb/Work/piZeroW/autoUploadData/testdir";
     FTPUpload::upload(path);
 
 }

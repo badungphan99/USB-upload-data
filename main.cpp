@@ -1,63 +1,27 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include "FileInfo.h"
-#include "blockingQueue.h"
+#include "checkFileUpdate.h"
+#include "FTPUpload.h"
+#include <thread>
 
-std::string execute(const std::string& command) {
-    system((command + " > temp.txt").c_str());
-
-    std::ifstream ifs("temp.txt");
-    std::string ret{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
-    ifs.close(); // must close the inout stream so the file can be cleaned up
-    if (std::remove("temp.txt") != 0) {
-        perror("Error deleting temporary file");
-    }
-    return ret;
+void checkUpdate(const std::string& path, BlockingQueue<std::string> &listFileUpload, std::vector<FileInfo> &filesInfo){
+    checkFileUpdate::process(path, listFileUpload, filesInfo);
 }
-
-std::vector<std::string> split (const std::string& s, const std::string& delimiter) {
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-    std::string token;
-    std::vector<std::string> res;
-
-    while ((pos_end = s.find (delimiter, pos_start)) != std::string::npos) {
-        token = s.substr (pos_start, pos_end - pos_start);
-        pos_start = pos_end + delim_len;
-        res.push_back (token);
+void uploadFTPServer(BlockingQueue<std::string>& listFileUpload){
+    while (!listFileUpload.empty()) {
+        FTPUpload::upload(listFileUpload.front());
+        std::experimental::filesystem::remove_all(listFileUpload.front());
+        listFileUpload.pop();
     }
-
-    res.push_back (s.substr (pos_start));
-    return res;
 }
 
 int main() {
-    std::vector<FileInfo> filesInfo;
-    BlockingQueue<std::string> listFileUpload;
-    std::string delimiter = "\t";
-    for(int asdasdasd=0; asdasdasd < 10; asdasdasd++) {
-        std::string info = execute("du -sh /home/dungpb/Work/piZeroW/autoUploadData/testdir/*");
-        std::istringstream ss(info);
-        for (std::string line; std::getline(ss, line);) {
-            std::vector<std::string> splited = split(line, delimiter);
-            if(!listFileUpload.isExist(splited[1])) {
-                if (filesInfo.empty()) {
-                    filesInfo.emplace_back(splited[1], splited[0]);
-                } else {
-                    for (auto it = filesInfo.begin(); it != filesInfo.end(); ++it) {
-                        if (it->checkPath(splited[1]) == 0) {
-                            if (it->updateInfo(splited[0]) == 0) {
-                                std::cout << "file nay co the upload: " << splited[1] << "\n";
-                                listFileUpload.push(it->getPath());
-                                filesInfo.erase(it);
-                                break;
-                            }
-                        }
-                    }
-                    filesInfo.emplace_back(splited[1], splited[0]);
-                }
-            }
+        BlockingQueue<std::string> listFileUpload;
+        std::vector<FileInfo> filesInfo;
+        std::string path =  "/home/dungpb/Work/piZeroW/autoUploadData/testdir";
+
+        while (true) {
+            std::thread t1(checkUpdate, std::ref(path), std::ref(listFileUpload), std::ref(filesInfo));
+            std::thread t2(uploadFTPServer, std::ref(listFileUpload));
+            t1.join();
+            t2.join();
         }
-    }
 }

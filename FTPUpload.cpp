@@ -91,6 +91,12 @@ int FTPUpload::uploadDir(const std::string &FTP_SERVER_ADD, int &FTP_SERVER_PORT
     auto *cftpClient = new ftp::CFTPClient(PRINT_LOG);
     cftpClient->InitSession(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD);
 
+    if(cftpClient->CreateDir(dirTimeStamp)){
+        log_info("Create dir successfully ", dirTimeStamp, "\n");
+    } else {
+        log_err("Cannot create dir or dir existed", dirTimeStamp, "\n");
+    }
+
     for(auto &i : listDir) {
         std::string dirNameRemote;
         renameFileRemote(i, path_local, dirTimeStamp, dirNameRemote);

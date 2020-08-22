@@ -26,6 +26,17 @@ public:
         return value;
     }
 
+    T front() {
+        this->mutex_.lock();
+        T value;
+        if( !this->queue_.empty() )
+        {
+            value = this->queue_.front();
+        }
+        this->mutex_.unlock();
+        return value;
+    }
+
     void push(T value) {
         this->mutex_.lock();
         this->queue_.push(value);

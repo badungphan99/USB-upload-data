@@ -4,7 +4,7 @@
 
 #include "FTPUpload.h"
 
-#define PRINT_LOG [](const std::string& strLogMsg) { std::cout << strLogMsg << std::endl; }
+#define PRINT_LOG [](const std::string& strLogMsg) { log_debug(strLogMsg, "\n"); }
 
 int FTPUpload::upload(const std::string &path_local) {
     std::string FTP_SERVER_ADD;
@@ -90,6 +90,7 @@ int FTPUpload::uploadDir(const std::string &FTP_SERVER_ADD, int &FTP_SERVER_PORT
 
     auto *cftpClient = new ftp::CFTPClient(PRINT_LOG);
     cftpClient->InitSession(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD);
+
     for(auto &i : listDir) {
         std::string dirNameRemote;
         renameFileRemote(i, path_local, dirTimeStamp, dirNameRemote);
@@ -139,7 +140,7 @@ int FTPUpload::renameTimeStamp(const std::string &path, std::string &filename) {
         log_err("Can't get file name\n");
         return 1;
     }
-    int timestamp = std::chrono::microseconds (std::chrono::microseconds (std::time(NULL))).count();
+    int timestamp = std::chrono::microseconds (std::chrono::microseconds (std::time(nullptr))).count();
     filename =  std::to_string(timestamp)+filename;
     return 0;
 }

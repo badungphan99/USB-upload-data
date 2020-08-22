@@ -2,7 +2,6 @@
 // Created by dungpb on 21/08/2020.
 //
 
-#include <iostream>
 #include "FileInfo.h"
 
 FileInfo::FileInfo(const std::string &path, const std::string &size){

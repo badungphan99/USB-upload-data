@@ -43,7 +43,7 @@ int main() {
             std::vector<std::string> splited = split(line, delimiter);
             if(!listFileUpload.isExist(splited[1])) {
                 if (filesInfo.empty()) {
-                    filesInfo.push_back(FileInfo(splited[1], splited[0]));
+                    filesInfo.emplace_back(splited[1], splited[0]);
                 } else {
                     for (auto it = filesInfo.begin(); it != filesInfo.end(); ++it) {
                         if (it->checkPath(splited[1]) == 0) {
@@ -55,7 +55,7 @@ int main() {
                             }
                         }
                     }
-                    filesInfo.push_back(FileInfo(splited[1], splited[0]));
+                    filesInfo.emplace_back(splited[1], splited[0]);
                 }
             }
         }

@@ -53,6 +53,7 @@ public:
             temp.push(tmpValue);
         }
         this->queue_ = temp;
+        this->mutex_.unlock();
         return flag;
     }
 };

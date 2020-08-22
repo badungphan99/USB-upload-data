@@ -3,15 +3,16 @@
 //
 
 #include "FileInfo.h"
+#include <iostream>
 
-FileInfo::FileInfo(const std::string &path, const std::string &size){
+FileInfo::FileInfo(const std::string &path, const int &size){
     this->path = path;
     this->size = size;
     this->count = 0;
 }
 
-int FileInfo::updateInfo(const std::string &size) {
-    if(size.compare(this->size) == 0){
+int FileInfo::updateInfo(const int &size) {
+    if(size == this->size){
         this->count++;
     } else {
         this->size = size;

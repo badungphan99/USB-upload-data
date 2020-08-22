@@ -5,7 +5,7 @@
 #ifndef AUTOUPLOADDATA_FILEINFO_H
 #define AUTOUPLOADDATA_FILEINFO_H
 
-#define NUM_CHECK 2
+#define NUM_CHECK 10
 
 
 #include <string>
@@ -13,11 +13,11 @@
 class FileInfo {
 private:
     std::string path;
-    std::string size;
+    int size;
     int count;
 public:
-    FileInfo(const std::string &path, const std::string &size);
-    int updateInfo(const std::string &size);
+    FileInfo(const std::string &path, const int &size);
+    int updateInfo(const int &size);
     int checkPath(const std::string &path);
     const std::string &getPath() const;
 };

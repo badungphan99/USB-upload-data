@@ -1,3 +1,6 @@
+
+#define TIME 1000000000 // 1s
+
 #include "checkFileUpdate.h"
 #include "FTPUpload.h"
 #include <thread>
@@ -14,14 +17,23 @@ void uploadFTPServer(BlockingQueue<std::string>& listFileUpload){
 }
 
 int main() {
-        BlockingQueue<std::string> listFileUpload;
-        std::vector<FileInfo> filesInfo;
-        std::string path =  "/home/dungpb/Work/piZeroW/autoUploadData/testdir";
 
-        while (true) {
-            std::thread t1(checkUpdate, std::ref(path), std::ref(listFileUpload), std::ref(filesInfo));
-            std::thread t2(uploadFTPServer, std::ref(listFileUpload));
-            t1.join();
-            t2.join();
+    BlockingQueue<std::string> listFileUpload;
+    std::vector<FileInfo> filesInfo;
+    std::string path =  "/home/dungpb/Work/piZeroW/autoUploadData/testdir";
+
+    auto timeStart = std::chrono::high_resolution_clock::now();
+
+    while (true) {
+        auto time = (std::chrono::high_resolution_clock::now() - timeStart).count();
+        std::thread t1;
+        if (time > TIME) {
+            t1 = std::thread(checkUpdate, std::ref(path), std::ref(listFileUpload), std::ref(filesInfo));
+            timeStart = std::chrono::high_resolution_clock::now();
         }
+
+        std::thread t2(uploadFTPServer, std::ref(listFileUpload));
+        if(t1.joinable()){t1.join();}
+        if(t2.joinable()){t2.join();}
+    }
 }

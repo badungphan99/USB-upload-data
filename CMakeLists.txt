@@ -8,8 +8,8 @@ find_package(Threads REQUIRED)
 
 include_directories(${CURL_INCLUDE_DIRS})
 
-include_directories(libFTP)
+include_directories(libFTP libCNU)
 
-add_executable(autoUploadData main.cpp FileInfo.cpp FileInfo.h blockingQueue.h checkFileUpdate.cpp checkFileUpdate.h debug_macro.h libFTP/CurlHandle.cpp libFTP/CurlHandle.h libFTP/FTPClient.cpp libFTP/FTPClient.h FTPUpload.cpp FTPUpload.h)
+add_executable(autoUploadData mainCNU.cpp libCNU/FileInfo.cpp libCNU/FileInfo.h libCNU/blockingQueue.h libCNU/checkFileUpdate.cpp libCNU/checkFileUpdate.h debug_macro.h libFTP/CurlHandle.cpp libFTP/CurlHandle.h libFTP/FTPClient.cpp libFTP/FTPClient.h libCNU/FTPUpload.cpp libCNU/FTPUpload.h)
 
 target_link_libraries(autoUploadData ${CURL_LIBRARIES} stdc++fs ${CMAKE_THREAD_LIBS_INIT})

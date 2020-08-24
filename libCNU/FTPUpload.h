@@ -8,8 +8,8 @@
 #include <chrono>
 #include <experimental/filesystem>
 
-#include "libFTP/FTPClient.h"
-#include "debug_macro.h"
+#include "FTPClient.h"
+#include "../debug_macro.h"
 
 namespace FTPUpload {
     /**

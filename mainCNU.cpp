@@ -1,8 +1,8 @@
 
 #define TIME 1000000000 // 1s
 
-#include "checkFileUpdate.h"
-#include "FTPUpload.h"
+#include "libCNU/checkFileUpdate.h"
+#include "libCNU/FTPUpload.h"
 #include <thread>
 
 void checkUpdate(const std::string& path, BlockingQueue<std::string> &listFileUpload, std::vector<FileInfo> &filesInfo){

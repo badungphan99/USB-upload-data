@@ -9,7 +9,7 @@
 #include <string>
 
 #include "blockingQueue.h"
-#include "debug_macro.h"
+#include "../debug_macro.h"
 #include "FileInfo.h"
 #include "FTPUpload.h"
 

@@ -20,7 +20,7 @@ int main() {
 
     BlockingQueue<std::string> listFileUpload;
     std::vector<FileInfo> filesInfo;
-    std::string path =  "/home/dungpb/Work/piZeroW/autoUploadData/testdir";
+    std::string path =  "/mnt/usb";
 
     auto timeStart = std::chrono::high_resolution_clock::now();
 

@@ -5,7 +5,7 @@
 #include "libMountFile/mountManager.h"
 
 int main(){
-    std::string path = "/piusb.img";
+    std::string path = "/piusb.bin";
     mountManager::ejectUSB();
     mountManager::mount(path);
 }

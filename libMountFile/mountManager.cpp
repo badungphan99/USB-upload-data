@@ -28,7 +28,7 @@ std::string mountManager::exec(const char* cmd) {
 }
 
 int mountManager::mount(const std::string &path) {
-    std::string command = "sudo mount -t vfat " + path + " /mnt/usb";
+    std::string command = "sudo mount -t vfat " + path + " /mnt/usb -o rw,users,umask=000";
     std::string res = exec(command.c_str());
     std::cout << res << "\n";
 

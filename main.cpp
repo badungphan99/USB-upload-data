@@ -61,7 +61,6 @@ int main(){
 
         ss << std::put_time(&bt, "%M");
         usleep(20000000);
-        log_info(ss.str(), "\n");
         if (std::atoi(ss.str().c_str()) == timeset) {
             if(flag) {
                 if(index < listImg.size() - 1) index++;

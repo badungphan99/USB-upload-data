@@ -1,5 +1,5 @@
 {
-  "TIME": 35,
+  "TIME": 30,
   "IMG": ["/piusb1.bin", "/piusb2.bin"],
   "SIZE": "200",
   "FTP_SERVER_ADD": "ftp.dlptest.com",

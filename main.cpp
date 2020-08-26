@@ -57,6 +57,8 @@ int main(){
         if(once) {
             run(listImg, index, json);
             once = false;
+            if(index < listImg.size() - 1) index++;
+            else index = 0;
         }
         auto timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
         std::tm bt = *std::localtime(&timenow);

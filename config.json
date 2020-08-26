@@ -1,6 +1,6 @@
 {
-  "TIME": 18,
-  "IMG": ["/piusb1.bin", "/piusb2.bin", "/piusb3.bin"],
+  "TIME": 35,
+  "IMG": ["/piusb1.bin", "/piusb2.bin"],
   "SIZE": "200",
   "FTP_SERVER_ADD": "ftp.dlptest.com",
   "FTP_SERVER_PORT": 21,

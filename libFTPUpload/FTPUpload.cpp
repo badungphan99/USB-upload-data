@@ -6,7 +6,7 @@
 
 #define PRINT_LOG [](const std::string& strLogMsg) { log_debug(strLogMsg, "\n"); }
 
-int FTPUpload::upload(const std::string &path_local) {
+int FTPUpload::upload(const std::string &path_ftp_dir) {
     std::string FTP_SERVER_ADD;
     int FTP_SERVER_PORT;
     std::string FTP_USERNAME;
@@ -16,30 +16,32 @@ int FTPUpload::upload(const std::string &path_local) {
         log_err("missing info FTP SERVER\n");
         return 1;
     }
+    for (auto &entry : std::experimental::filesystem::directory_iterator(path_ftp_dir)) {
 
-    int ec = checkPath(path_local);
+        int ec = checkPath(entry.path());
 
-    if(ec == 1){
-        log_info("Upload file\n");
-        if(!uploadFile(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD, path_local)){
-            log_info("File uploaded successfully\n");
-        } else{
-            log_err("Error when upload file\n");
+        if (ec == 1) {
+            log_info("Upload file\n");
+            if (!uploadFile(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD, entry.path())) {
+                log_info("File uploaded successfully\n");
+            } else {
+                log_err("Error when upload file\n");
+                return 1;
+            }
+        }
+        if (ec == 0) {
+            log_info("Upload dir\n");
+            if (!uploadDir(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD, entry.path())) {
+                log_info("Dir uploaded successfully\n");
+            } else {
+                log_err("Error when upload dir\n");
+                return 1;
+            }
+        }
+        if (ec == 2) {
+            log_err("Unknow path: ", entry.path());
             return 1;
         }
-    }
-    if(ec == 0) {
-        log_info("Upload dir\n");
-        if(!uploadDir(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD, path_local)){
-            log_info("Dir uploaded successfully\n");
-        } else {
-            log_err("Error when upload dir\n");
-            return 1;
-        }
-    }
-    if(ec == 2){
-        log_err("Unknow path: ", path_local);
-        return 1;
     }
     return 0;
 }

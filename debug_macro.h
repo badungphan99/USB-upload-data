@@ -1,5 +1,5 @@
-#ifndef AUTOCONTOUR_DEBUG_MACRO_H
-#define AUTOCONTOUR_DEBUG_MACRO_H
+#ifndef DEBUG_MACRO_H
+#define DEBUG_MACRO_H
 
 #include <iostream>
 #include <sstream>
@@ -66,4 +66,4 @@ void doPrint(const char *type,
         do { doPrint("[INFO]", __FILENAME__, __func__, __LINE__ , "92m", f, ## __VA_ARGS__); } while (0)
 #endif //NDEBUG
 
-#endif //AUTOCONTOUR_DEBUG_MACRO_H
+#endif //DEBUG_MACRO_H

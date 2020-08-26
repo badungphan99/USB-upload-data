@@ -6,13 +6,13 @@
 
 #define PRINT_LOG [](const std::string& strLogMsg) { log_debug(strLogMsg, "\n"); }
 
-int FTPUpload::upload(const std::string &path_ftp_dir) {
+int FTPUpload::upload(const std::string &path_ftp_dir, const nlohmann::json &config) {
     std::string FTP_SERVER_ADD;
     int FTP_SERVER_PORT;
     std::string FTP_USERNAME;
     std::string FTP_PASSWORD;
 
-    if(getEnvVar(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD)){
+    if(getEnvVar(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD, config)){
         log_err("missing info FTP SERVER\n");
         return 1;
     }
@@ -23,18 +23,20 @@ int FTPUpload::upload(const std::string &path_ftp_dir) {
         if (ec == 1) {
             log_info("Upload file\n");
             if (!uploadFile(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD, entry.path())) {
-                log_info("File uploaded successfully\n");
+                log_info("File uploaded successfully", entry.path(), "\n");
+                std::experimental::filesystem::remove_all(entry.path());
             } else {
-                log_err("Error when upload file\n");
+                log_err("Error when upload file", entry.path(), "\n");
                 return 1;
             }
         }
         if (ec == 0) {
             log_info("Upload dir\n");
             if (!uploadDir(FTP_SERVER_ADD, FTP_SERVER_PORT, FTP_USERNAME, FTP_PASSWORD, entry.path())) {
-                log_info("Dir uploaded successfully\n");
+                log_info("Dir uploaded successfully", entry.path(), "\n");
+                std::experimental::filesystem::remove_all(entry.path());
             } else {
-                log_err("Error when upload dir\n");
+                log_err("Error when upload dir", entry.path(), "\n");
                 return 1;
             }
         }
@@ -65,11 +67,11 @@ int FTPUpload::checkPath(const std::string &path_check) {
 }
 
 int FTPUpload::getEnvVar(std::string &FTP_SERVER_ADD, int& FTP_SERVER_PORT, std::string &FTP_USERNAME,
-                         std::string &FTP_PASSWORD) {
-    FTP_SERVER_ADD = "ftp.dlptest.com";
-    FTP_SERVER_PORT = 21;
-    FTP_USERNAME = "dlpuser@dlptest.com";
-    FTP_PASSWORD = "eUj8GeW55SvYaswqUyDSm5v6N";
+                         std::string &FTP_PASSWORD, const nlohmann::json &config) {
+    FTP_SERVER_ADD = config["FTP_SERVER_ADD"].get<std::string>();
+    FTP_SERVER_PORT = config["FTP_SERVER_PORT"].get<int>();
+    FTP_USERNAME = config["FTP_USERNAME"].get<std::string>();
+    FTP_PASSWORD = config["FTP_PASSWORD"].get<std::string>();
     return 0;
 }
 

@@ -10,4 +10,4 @@
 ### Software
 
 - ` $ sudo apt-get update `
-- ` sudo apt-get install libcurl4-openssl-dev cmake wiringpi `
+- ` $ sudo apt-get install libcurl4-openssl-dev cmake git`

@@ -9,6 +9,7 @@
 #include <experimental/filesystem>
 
 #include "FTPClient.h"
+#include "../json.hpp"
 #include "../debug_macro.h"
 
 namespace FTPUpload {
@@ -17,7 +18,7 @@ namespace FTPUpload {
      * @param path_local: The path can be a directory or a file
      * @return
      */
-    int upload(const std::string& path_local);
+    int upload(const std::string& path_local, const nlohmann::json &config);
 
     /**
      * @brief check path is a directory of a file
@@ -30,7 +31,7 @@ namespace FTPUpload {
      * @brief get environment variables
      * @return
      */
-    int getEnvVar(std::string& FTP_SERVER_ADD, int& FTP_SERVER_PORT, std::string& FTP_USERNAME, std::string& FTP_PASSWORD);
+    int getEnvVar(std::string& FTP_SERVER_ADD, int& FTP_SERVER_PORT, std::string& FTP_USERNAME, std::string& FTP_PASSWORD, const nlohmann::json &config);
 
     /**
      * @brief upload file to ftp server

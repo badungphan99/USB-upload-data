@@ -12,7 +12,7 @@
 #include <chrono>
 
 void testFTP(){
-    std::string pathConfig = "/home/dungpb/Work/piZeroW/autoUploadData/config.json";
+    std::string pathConfig = "../config.json";
     std::ifstream info(pathConfig);
     nlohmann::json json = nlohmann::json::parse(info);
 

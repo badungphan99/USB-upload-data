@@ -30,7 +30,7 @@ std::string exec(const char* cmd) {
 }
 
 int main(){
-    std::string pathConfig = "/home/dungpb/Work/piZeroW/autoUploadData/config.json";
+    std::string pathConfig = "../config.json";
 
     std::cout << exec("sudo mkdir /mnt/usb") << "\n";
     std::cout << exec("sudo chmod -R 777 /mnt/usb") << "\n";

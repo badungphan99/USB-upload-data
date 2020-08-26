@@ -33,7 +33,7 @@ void run(const std::vector<std::string> &path, int &index, const nlohmann::json 
 
 int main(){
 //    testFTP();
-    std::string pathConfig = "/home/dungpb/Work/piZeroW/autoUploadData/config.json";
+    std::string pathConfig = "../config.json";
     std::ifstream info(pathConfig);
     nlohmann::json json = nlohmann::json::parse(info);
 
@@ -44,6 +44,7 @@ int main(){
 
 
     bool flag = true;
+    bool once = true;
     int index = 0;
 
     while (1) {
@@ -51,8 +52,10 @@ int main(){
         if(index < listImg.size() - 1) index++;
         else index = 0;
 
-        run(listImg, index, json);
-
+        if(once) {
+            run(listImg, index, json);
+            once = false;
+        }
         auto timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
         std::tm bt = *std::localtime(&timenow);
         std::ostringstream oss;
@@ -66,10 +69,8 @@ int main(){
                 flag = false;
             }
         }
-        if (std::atoi(ss.str().c_str()) != timeset) {
-            if(!flag){
+        if (std::atoi(ss.str().c_str()) != timeset && flag == false){
                 flag = true;
-            }
         }
     }
 }

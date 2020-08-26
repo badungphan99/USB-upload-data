@@ -50,15 +50,9 @@ int main(){
     int index = 0;
 
     while (1) {
-
-        if(index < listImg.size() - 1) index++;
-        else index = 0;
-
         if(once) {
             run(listImg, index, json);
             once = false;
-            if(index < listImg.size() - 1) index++;
-            else index = 0;
         }
         auto timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
         std::tm bt = *std::localtime(&timenow);
@@ -70,6 +64,8 @@ int main(){
         log_info(ss.str(), "\n");
         if (std::atoi(ss.str().c_str()) == timeset) {
             if(flag) {
+                if(index < listImg.size() - 1) index++;
+                else index = 0;
                 run(listImg, index, json);
                 flag = false;
             }

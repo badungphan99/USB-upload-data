@@ -24,8 +24,6 @@ void testFTP(){
 void run(const std::vector<std::string> &path, int &index, const nlohmann::json &config){
     int next = 0;
     if(index < path.size() - 1) next = index + 1;
-    std::cout << path[next] << " == " << path[index] << "\n";
-
     mountManager::ejectUSB();
     mountManager::connectUSB(path[next]);
     mountManager::mount(path[index]);
@@ -64,7 +62,7 @@ int main(){
         std::ostringstream oss;
         std::stringstream ss;
 
-        ss << std::put_time(&bt, "H");
+        ss << std::put_time(&bt, "%H");
         usleep(1800000000); // 30 minutes
         if (std::atoi(ss.str().c_str()) == timeset) {
             if(flag) {

@@ -1,9 +1,18 @@
 {
-  "TIME": 30,
+  "TIME": 18,
   "IMG": ["/piusb1.bin", "/piusb2.bin"],
   "SIZE": "200",
   "FTP_SERVER_ADD": "ftp.dlptest.com",
   "FTP_SERVER_PORT": 21,
   "FTP_USERNAME": "dlpuser@dlptest.com",
-  "FTP_PASSWORD": "eUj8GeW55SvYaswqUyDSm5v6N"
+  "FTP_PASSWORD": "eUj8GeW55SvYaswqUyDSm5v6N",
+  "Comment" : {
+    "TIME": "Thoi gian umount usb, va chuyen sang che do upload, mot usb khac se duoc mount vao thay the",
+    "IMG": "cac file image chu du lieu cua usb",
+    "SIZE": "kick thuoc cac file image can tao ~ dung luong usb",
+    "FTP_SERVER_ADD": "dia chi server ftp",
+    "FTP_SERVER_PORT": "port server ftp",
+    "FTP_USERNAME": "tai khoan dang nhap",
+    "FTP_PASSWORD": "mat khau dang nhap"
+  }
 }

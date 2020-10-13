@@ -62,7 +62,7 @@ int main(){
         std::ostringstream oss;
         std::stringstream ss;
 
-        ss << std::put_time(&bt, "%H");
+        ss << std::put_time(&bt, "%H%M");
         usleep(1800000000); // 30 minutes
         if (std::atoi(ss.str().c_str()) == timeset) {
             if(flag) {

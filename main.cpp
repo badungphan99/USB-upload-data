@@ -40,7 +40,7 @@ int main(){
     std::vector<std::string> listImg = json["IMG"];
     int timeset = json["TIME"].get<int>();
 
-    if (timeset < 0 || timeset > 23){
+    if (timeset < 0 || timeset > 2400){
         log_err("check time config\n");
         return 1;
     }
@@ -63,7 +63,7 @@ int main(){
         std::stringstream ss;
 
         ss << std::put_time(&bt, "%H%M");
-        usleep(1800000000); // 30 minutes
+//        usleep(1800000000); // 30 minutes
         if (std::atoi(ss.str().c_str()) == timeset) {
             if(flag) {
                 if(index < listImg.size() - 1) index++;

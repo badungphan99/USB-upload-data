@@ -164,6 +164,8 @@ int FTPUpload::directoryAndFileRegression(const std::string &path, std::vector<s
                                           std::vector<std::string> &listFile) {
     for (auto &entry : std::experimental::filesystem::directory_iterator(path)) {
 
+        if (base_name(entry.path())[0] == '.') continue;
+
         int ec = checkPath(entry.path());
 
         if(ec == 2){
@@ -172,14 +174,10 @@ int FTPUpload::directoryAndFileRegression(const std::string &path, std::vector<s
         }
 
         if(ec){
-            if (base_name(entry.path())[0] != '.') {
-                listFile.push_back(entry.path());
-            }
+            listFile.push_back(entry.path());
         } else {
-            if (base_name(entry.path())[0] != '.') {
-                listDir.push_back(entry.path());
-                directoryAndFileRegression(entry.path(), listDir, listFile);
-            }
+            listDir.push_back(entry.path());
+            directoryAndFileRegression(entry.path(), listDir, listFile);
         }
     }
     return 0;

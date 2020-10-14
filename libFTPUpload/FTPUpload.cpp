@@ -6,6 +6,11 @@
 
 #define PRINT_LOG [](const std::string& strLogMsg) { log_debug(strLogMsg, "\n"); }
 
+std::string base_name(std::string const & path)
+{
+    return path.substr(path.find_last_of("/\\") + 1);
+}
+
 int FTPUpload::upload(const std::string &path_ftp_dir, const nlohmann::json &config) {
     std::string FTP_SERVER_ADD;
     int FTP_SERVER_PORT;
@@ -17,6 +22,8 @@ int FTPUpload::upload(const std::string &path_ftp_dir, const nlohmann::json &con
         return 1;
     }
     for (auto &entry : std::experimental::filesystem::directory_iterator(path_ftp_dir)) {
+
+        if (base_name(entry.path())[0] == '.') continue;
 
         int ec = checkPath(entry.path());
 
@@ -153,11 +160,6 @@ int FTPUpload::renameTimeStamp(const std::string &path, std::string &filename) {
     int timestamp = std::chrono::microseconds (std::chrono::microseconds (std::time(nullptr))).count();
     filename =  std::to_string(timestamp)+filename;
     return 0;
-}
-
-std::string base_name(std::string const & path)
-{
-    return path.substr(path.find_last_of("/\\") + 1);
 }
 
 int FTPUpload::directoryAndFileRegression(const std::string &path, std::vector<std::string> &listDir,

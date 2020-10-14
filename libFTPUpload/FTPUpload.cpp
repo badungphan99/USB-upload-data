@@ -155,6 +155,11 @@ int FTPUpload::renameTimeStamp(const std::string &path, std::string &filename) {
     return 0;
 }
 
+std::string base_name(std::string const & path)
+{
+    return path.substr(path.find_last_of("/\\") + 1);
+}
+
 int FTPUpload::directoryAndFileRegression(const std::string &path, std::vector<std::string> &listDir,
                                           std::vector<std::string> &listFile) {
     for (auto &entry : std::experimental::filesystem::directory_iterator(path)) {
@@ -167,10 +172,14 @@ int FTPUpload::directoryAndFileRegression(const std::string &path, std::vector<s
         }
 
         if(ec){
-            listFile.push_back(entry.path());
+            if (base_name(entry.path())[0] != '.') {
+                listFile.push_back(entry.path());
+            }
         } else {
-            listDir.push_back(entry.path());
-            directoryAndFileRegression(entry.path(), listDir, listFile);
+            if (base_name(entry.path())[0] != '.') {
+                listDir.push_back(entry.path());
+                directoryAndFileRegression(entry.path(), listDir, listFile);
+            }
         }
     }
     return 0;
